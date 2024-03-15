@@ -3,7 +3,7 @@
 Universal Asynchronous Receiver-Transmitter (UART), a serial communication protocol that can be used to send data between an Arduino board and other devices
 
 > [!CAUTION]
-> This is the short notes, extrated from the detailed documentation and tutorials. For details material, visit [uartRefrence.md]() 
+> This is the short notes, extrated from the detailed documentation and tutorials. For details material, visit->[uartRefrence.md](https://github.com/suraj-maurya/IoT-Resources/blob/main/Protocols/Communication/UART/uartRefrence.md) 
 
 > [!NOTE]
 > It's among the earliest serial protocols and even though it has in many places been replaced by SPI and I2C it's still widely used for lower-speed and lower-throughput applications because it is very simple, low-cost and easy to implement.
