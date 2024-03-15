@@ -58,6 +58,7 @@ R needs to tell T to stop transmitting for a while. This is where flow control c
 ## UART Messages
 
 In UART communication, each data frame is encapsulated by start and stop bits. These bits serve a vital role in establishing the boundaries of data transmission and ensuring synchronization between the sender and receiver.
+
 ![UART FRAM FORMATE](https://docs.arduino.cc/static/ff1d2c3971a36f4dea095a4d44fe3ce0/a6d36/message.png)
 
 ## Serial USB Examples
