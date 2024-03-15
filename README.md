@@ -1,2 +1,2 @@
 # IoT-Resources
-Organized learnign resources of the IoT.
+Organized learning resources of the IoT.
