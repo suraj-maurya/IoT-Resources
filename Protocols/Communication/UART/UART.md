@@ -34,3 +34,43 @@ With the Serial class, you can send / receive data to and from your computer ove
  UART operates by transmitting data as a series of bits, including a start bit, data bits, an optional parity bit, and stop bit(s). Unlike parallel communication, where multiple bits are transmitted simultaneously, UART sends data serially, one bit at a time. As the name reveals the protocol operates asynchronous which means that it doesn't rely on a shared clock signal. Instead, it uses predefined baud rates to determine the timing of data bits.
 
 ![Working Daigram](https://docs.arduino.cc/static/d3a2c9ad97f1b7479b997e8d89426aaf/a6d36/parallelSerial.png)
+
+> [!CAUTION]
+> Consider that you need to connect a common ground between the devices to define the high and low signals for UART communication. Without a common ground, devices may not be able to correctly interpret transmitted data.
+
+### Components 
+The key components of UART include the transmitter, receiver, and baud rate. The transmitter collects data from a source, formats it into serial bits, and sends it via a TX (Transmit) pin. The receiver receives it via a RX (Receive) pin, processes incoming serial data and converts it into parallel data for the host system.
+
+### Timing and Synchronization
+Unlike synchronous serial communication protocols such as SPI and I2C, UART operates operates asynchronously, meaning it doesn't rely on a shared clock signal to coordinate data transmission.
+
+#### Baud Rate
+ The baud rate is specified in bits per second (bps) and represents the number of bits transmitted in one second. In UART, both the transmitting and receiving devices must agree on the same baud rate to ensure successful communication
+
+ > [!NOTE]
+ > A higher baud rate allows for faster data transmission, but it also demands a more precise timing synchronization between the sender and receiver. On the other hand, a lower baud rate may be suitable for applications where timing accuracy is less critical, but it results in slower data transfer.
+
+ ### Flow Control in UART
+UART Flow Control is a method for slow and fast devices to communicate with each other over UART without the risk of losing data. Consider the case where two units are communicating over UART. A transmitter T is sending a long stream of bytes to a receiver R. R is a slower device than T, and R cannot keep up. It needs to either do some processing on the data or empty some buffers before it can keep receiving data.
+
+R needs to tell T to stop transmitting for a while. This is where flow control comes in. Flow control provides extra signaling to inform the transmitter that it should stop (pause) or start (resume) the transmission
+
+## UART Messages
+In UART communication, each data frame is encapsulated by start and stop bits. These bits serve a vital role in establishing the boundaries of data transmission and ensuring synchronization between the sender and receiver.
+![UART FRAM FORMATE](https://docs.arduino.cc/static/ff1d2c3971a36f4dea095a4d44fe3ce0/a6d36/message.png)
+
+## Serial USB Examples
+
+### Basic Print Example
+This example will send the string Hello World! from an Arduino to a computer, using the Serial.println() function. Data will be sent every one second.
+
+```
+void setup(){
+  Serial.begin(9600); //initialize serial communication at a 9600 baud rate
+}
+
+void loop(){
+  Serial.println("Hello world!");
+  delay(1000);
+}
+```
