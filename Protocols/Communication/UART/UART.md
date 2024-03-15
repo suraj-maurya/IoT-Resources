@@ -12,7 +12,7 @@ Communication via UART is enabled by the Serial class, which has a number of met
 With the Serial class, you can send / receive data to and from your computer over USB, or to a device connected via the Arduino's RX/TX pins.
 
 > [!NOTE]
-> The GIGA R1 WiFi, Mega 2560 and Due boards 3 serial port.
+> The GIGA R1 WiFi, Mega 2560 and Due boards have 3 serial port.
 
 ### The Serial class have several methods with some of the essentials being:
 
@@ -22,3 +22,15 @@ With the Serial class, you can send / receive data to and from your computer ove
 - available() - checks if serial data is available (if you send a command from the Serial Monitor).
 - read() - reads data from the serial port.
 - write() - writes data to the serial port.
+
+> [!NOTE]
+> The Serial class is supported on all Arduino boards.
+
+## [Arduino UART Pins](https://docs.arduino.cc/learn/communication/uart/#serial-class)
+
+## Technical Specifications
+
+### How UART Works
+       UART operates by transmitting data as a series of bits, including a start bit, data bits, an optional parity bit, and stop bit(s). Unlike parallel communication, where multiple bits are transmitted simultaneously, UART sends data serially, one bit at a time. As the name reveals the protocol operates asynchronous which means that it doesn't rely on a shared clock signal. Instead, it uses predefined baud rates to determine the timing of data bits.
+
+![Working Daigram](https://docs.arduino.cc/static/d3a2c9ad97f1b7479b997e8d89426aaf/a6d36/parallelSerial.png)
