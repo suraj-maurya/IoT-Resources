@@ -74,3 +74,65 @@ void loop(){
   delay(1000);
 }
 ```
+
+### Read
+To send data from a computer to an Arduino (from the Serial Monitor), we can make use of the Serial.available() and Serial.read() functions. First, we check if there's any data available, and if so, we read it and print it out.
+
+This example will essentially print out whatever you enter in the Serial Monitor (because we send the data to the board, but we also print it back).
+
+```
+int incomingByte = 0; // for incoming serial data
+
+void setup() {
+  Serial.begin(9600); //initialize serial communication at a 9600 baud rate
+}
+
+void loop() {
+  // send data only when you receive data:
+  if (Serial.available() > 0) {
+    // read the incoming byte:
+    incomingByte = Serial.read();
+
+    // say what you got:
+    Serial.print("I received: ");
+    Serial.println(incomingByte, DEC);
+  }
+}
+```
+### Transmit / Receive Messages
+
+```
+String sendMessage;
+String receivedMessage;
+
+void setup() {
+  Serial.begin(9600);    // Initialize the Serial monitor for debugging
+  Serial1.begin(9600);   // Initialize Serial1 for sending data
+}
+
+void loop() {
+  while (Serial1.available() > 0) {
+    char receivedChar = Serial1.read();
+    if (receivedChar == '\n') {
+      Serial.println(receivedMessage);  // Print the received message in the Serial monitor
+      receivedMessage = "";  // Reset the received message
+    } else {
+      receivedMessage += receivedChar;  // Append characters to the received message
+    }
+  }
+
+  if (Serial.available() > 0) {
+    char inputChar = Serial.read();
+    if (inputChar == '\n') {
+      Serial1.println(sendMessage);  // Send the message through Serial1 with a newline character
+      sendMessage = "";  // Reset the message
+    } else {
+      sendMessage += inputChar;  // Append characters to the message
+    }
+  }
+}
+```
+
+> [!NOTE]
+> In programming, the newline character ('\n') is like pressing "Enter" key. It's a special character that tells the computer, "Move to the next line." In our case we know that a message is sent after pressing enter which equals the newline character ('n').
+
