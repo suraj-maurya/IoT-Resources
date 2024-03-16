@@ -4,8 +4,8 @@ MQTT is the most commonly used messaging protocol for the Internet of Things (Io
 
 > [!NOTE]
 > - It requires minimal resources since it is lightweight and efficient
-- Supports bi-directional messaging between device and cloud
-  - Can scale to millions of connected devices
-  - Supports reliable message delivery through 3 QoS levels
-  - Works well over unreliable networks
-  -  Security enabled, so it works with TLS and common authentication protocols
+> - Supports bi-directional messaging between device and cloud
+> - Can scale to millions of connected devices
+> - Supports reliable message delivery through 3 QoS levels
+> - Works well over unreliable networks
+> -  Security enabled, so it works with TLS and common authentication protocols
