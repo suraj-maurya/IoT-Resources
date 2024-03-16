@@ -36,6 +36,23 @@ MQTT and HTTP are both network protocols but serve different communication patte
 - HTTP: HTTP typically relies on TCP for reliable data delivery. While HTTP itself does not provide built-in mechanisms for message acknowledgment and retransmission, applications can implement retry mechanisms and error handling to improve reliability.
 
 
-
 ## [Introducing the MQTT Protocol – MQTT Essentials: Part 1](https://www.hivemq.com/blog/mqtt-essentials-part-1-introducing-mqtt/)
 
+### What is MQTT
+MQTT is a Client Server publish/subscribe messaging transport protocol. It is lightweight, open, simple, and designed so as to be easy to implement. These characteristics make it ideal for use in many situations, including constrained environments such as for communication in Machine to Machine (M2M) and Internet of Things (IoT) contexts where a small code footprint is required and/or network bandwidth is at a premium.
+
+> [!NOTE]
+> MQTT was created with a focus on sending small amounts of data over unreliable networks with limited bandwidth and connectivity
+
+> [!NOTE]
+> MQTT uses a binary message format for communication between clients and brokers. This is in contrast to other protocols that use text-based formats, such as HTTP or SMTP.
+
+### Origin
+In 1999, Andy Stanford-Clark of IBM and Arlen Nipper of Arcom (now Cirrus Link) developed the MQTT protocol to enable minimal battery loss and bandwidth usage when connecting with oil pipelines via satellite. The inventors specified several requirements for the protocol, including:
+- Simple implementation
+- Quality of Service data delivery
+- Lightweight and bandwidth-efficient
+- Data agnostic
+- Continuous session awareness
+
+![History](https://www.hivemq.com/sb-assets/f/243938/600x1200/dd67e69190/when-was-mqtt-discovered.webp)
