@@ -56,3 +56,10 @@ In 1999, Andy Stanford-Clark of IBM and Arlen Nipper of Arcom (now Cirrus Link) 
 - Continuous session awareness
 
 ![History](https://www.hivemq.com/sb-assets/f/243938/600x1200/dd67e69190/when-was-mqtt-discovered.webp)
+
+### The Role of OASIS in Standardizing MQTT(Organization for the Advancement of Structured Information Standards)
+
+In 2014, OASIS announced that it would take over the standardization of MQTT, with the goal of making it an open and vendor-neutral protocol. Founded in 1993 as a non-profit, OASIS (Organization for the Advancement of Structured Information Standards) is an international consortium that develops open standards for the Internet and related technologies.
+The standardization process took around one year, and on October 29, 2014, MQTT became an officially approved OASIS standard.
+
+In March 2019, OASIS ratified the new MQTT 5 specification. This version introduced new features to MQTT that are required for IoT applications deployed on cloud platforms, and cases that require more reliability and error handling to implement mission-critical messaging. To learn more about MQTT 5, please check out our [MQTT 5](https://www.hivemq.com/mqtt/mqtt-5/) Essentials article series.
