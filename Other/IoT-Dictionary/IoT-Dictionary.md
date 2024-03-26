@@ -1,3 +1,6 @@
 # IoT-Dictionary
 
-- **htpp :**
+- **http :** Hypertext transfer protocol
+- **htpps :** Gypertext transfer protocol secure
+- **mqtt :** Message queuing telemetry transfer
+- ****
