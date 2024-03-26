@@ -1,3 +1,3 @@
 # IoT-Dictionary
 
-- ~htpp :~ 
+- *htpp :*
