@@ -36,6 +36,21 @@ MQTT and HTTP are both network protocols but serve different communication patte
 - HTTP: HTTP typically relies on TCP for reliable data delivery. While HTTP itself does not provide built-in mechanisms for message acknowledgment and retransmission, applications can implement retry mechanisms and error handling to improve reliability.
 
 
+## MQTT Tutorial: An Easy Guide to Getting Started with MQTT
+
+### Introduction to MQTT
+
+![image](https://www.hivemq.com/sb-assets/f/243938/1920x1080/d2bbcc60d9/mqtt-overview.webp)
+
+
+### MQTT Basics: Mastering the Essentials of this IoT Protocol
+
+At the core of MQTT are MQTT brokers and MQTT clients. The MQTT broker is an intermediary between senders and receivers, dispatching messages to the appropriate recipients. MQTT clients publish messages to the broker, and other clients subscribe to specific topics to receive messages. Each MQTT message includes a topic, and clients subscribe to topics of their interest. The MQTT broker maintains a subscriber list and uses it to deliver messages to the relevant clients.
+
+An MQTT broker can also buffer messages for disconnected clients, ensuring reliable message delivery even in unreliable network conditions. To achieve this, MQTT supports three different Quality of Service (QoS) levels: 0 (at most once), 1 (at least once), and 2 (exactly once).
+
+
+
 ## [Introducing the MQTT Protocol – MQTT Essentials: Part 1](https://www.hivemq.com/blog/mqtt-essentials-part-1-introducing-mqtt/)
 
 ### What is MQTT
@@ -65,9 +80,9 @@ The standardization process took around one year, and on October 29, 2014, MQTT 
 In March 2019, OASIS ratified the new MQTT 5 specification. This version introduced new features to MQTT that are required for IoT applications deployed on cloud platforms, and cases that require more reliability and error handling to implement mission-critical messaging. To learn more about MQTT 5, please check out our [MQTT 5](https://www.hivemq.com/mqtt/mqtt-5/) Essentials article series.
 
 
-## Exploring MQTT: Topics, Subscriptions, QoS, Persistent Messaging, and More
+### Exploring MQTT: Topics, Subscriptions, QoS, Persistent Messaging, and More
 
-### MQTT's Messaging Model: How It Works and Why It Matters for IoT & IIoT
+#### MQTT's Messaging Model: How It Works and Why It Matters for IoT & IIoT
 MQTT’s messaging model is based on topics and subscriptions. Topics are strings that messages are published to and subscribed to. Topics are hierarchical and can contain multiple levels separated by slashes, like a file path as shown below.
 
 ```
@@ -96,7 +111,7 @@ MQTT supports three levels of Quality of Service (QoS): QoS 0, QoS 1, and QoS 2.
 > It’s important to note that higher QoS levels typically require more resources and can result in increased latency and network traffic. As a result, it’s important to choose the appropriate QoS level based on the specific needs of your application. 
 
 
-## Understanding MQTT Message Persistence for Reliable IoT Communication 
+### Understanding MQTT Message Persistence for Reliable IoT Communication 
  
 Message persistence is an important feature in MQTT. It ensures messages are not lost in the event of a network or server failure. In MQTT, message persistence is achieved by storing messages on the server until they are delivered to the subscriber.
 
@@ -112,4 +127,24 @@ MQTT provides three types of message persistence options:
 > To configure message persistence in MQTT, the broker software used for handling MQTT connections must support the chosen persistence option. The configuration can be done through the broker’s configuration files or through its web interface.
 > It is important to note that message persistence comes with a trade-off in terms of performance and storage. The more persistent the messages, the more storage and processing resources are required by the broker. Therefore, it is important to choose the appropriate persistence level based on the specific requirements of the application.
 
-## MQTT Security: Protecting Your IoT Devices from Cyber Attacks
+### MQTT Security: Protecting Your IoT Devices from Cyber Attacks
+In terms of security, MQTT supports TLS encryption for secure communication between clients and the server. There are several strategies for securing MQTT deployments, such as encrypting communications, implementing strong authentication and access controls, etc.
+
+## [MQTT Publish/Subscribe Architecture (Pub/Sub) – MQTT Essentials: Part 2](https://www.hivemq.com/blog/mqtt-essentials-part2-publish-subscribe/) 
+
+### MQTT: Publish/Subscribe (Pub/Sub) Architecture
+
+In the Pub/Sub architecture, there are publishers that generate messages and subscribers that receive those messages. However, publish-subscribe is a broader concept that can be implemented using various protocols or technologies.
+
+> MQTT is one such specific messaging protocol that follows the publish-subscribe architecture. MQTT uses a broker-based model where clients connect to a broker, and messages are published to topics. Subscribers can then subscribe to specific topics and receive the published messages.
+
+### MQTT: Pub/Sub Decoupling Feature
+The Pub/Sub architecture offers a unique alternative to traditional client-server (request-response) models. In the request-response approach, the client directly communicates with the server endpoint, creating a bottleneck that slows down performance. On the other hand, the pub/sub model decouples the publisher of the message from the subscribers. The publisher and subscriber are unaware that the other exists. As a third component, a broker, handles the connection between them. This decoupling produces a faster and more efficient communication process.
+
+By eliminating the need for direct communication between publishers and subscribers, pub/sub architecture removes the exchange of IP addresses and ports. It also provides decoupling, allowing operations on both components to continue communication uninterrupted during publishing or receiving. The pub/sub features three dimensions of decoupling for optimal efficiency:
+
+- Space decoupling: Publisher and subscriber do not need to know each other (for example, no exchange of IP address and port).
+
+- Time decoupling: Publisher and subscriber do not need to run at the same time.
+
+- Synchronization decoupling: Operations on both components do not need to be interrupted during publishing or receiving.
