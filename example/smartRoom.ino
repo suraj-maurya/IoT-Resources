@@ -25,6 +25,10 @@
 #include <WiFiClientSecure.h>  // include WiFiClientSecure to establish secure connect .. anedya only allow secure connection
 #include <ArduinoJson.h>       // Include the Arduino library to make json or abstract the value from the json
 #include <TimeLib.h>           // Include the Time library to handle time synchronization with ATS (Anedya Time Services)
+#include <ESP8266mDNS.h>
+#include <WiFiUdp.h>
+#include <ArduinoOTA.h>
+
 
 String regionCode = "ap-in-1";                                   // Anedya region code (e.g., "ap-in-1" for Asia-Pacific/India) | For other country code, visity [https://docs.anedya.io/device/intro/#region]
 const char *deviceID = "2d5aa9ee-b68e-43a4-9821-430fe461d638";   // Fill your device Id , that you can get from your node description
@@ -43,8 +47,8 @@ String errorTopic = "$anedya/device/" + String(deviceID) + "/errors";       // M
 String commandTopic = "$anedya/device/" + String(deviceID) + "/commands";   // MQTT topic for device commands
 
 String statusTopic = "$anedya/device/" + String(deviceID) + "/commands/updateStatus/json";  // MQTT topic update status of the command
-String timeRes,commandId, fan_commandId, bulb_commandId;                                              // varibale to time response and store command Id
-long long fan_responseTimer = 0, bulb_responseTimer = 0;                                    // timer to control flow
+String timeRes,submitRes,commandId, fan_commandId, bulb_commandId;                                              // varibale to time response and store command Id
+long long fan_responseTimer = 0, bulb_responseTimer = 0,submitLogTimer;                                    // timer to control flow
 bool fan_processCheck = false;                                                              // check's, to make sure publish for process topic , once.
 bool bulb_processCheck = false;
 
@@ -69,16 +73,21 @@ void setup() {
   delay(1500);           // Delay for 1.5 seconds
 
   // Connect to WiFi network
+    WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, pass);
   Serial.println();
   Serial.print("Connecting to WiFi...");
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
+        ESP.restart();
   }
+
   Serial.println();
   Serial.print("Connected, IP address: ");
   Serial.println(WiFi.localIP());
+
+  submitLogTimer=millis();
 
   esp_client.setInsecure();
   mqtt_client.setServer(mqtt_broker, mqtt_port);  // Set the MQTT server address and port for the MQTT client to connect to anedya broker
@@ -154,6 +163,7 @@ void loop() {
   }
 
   mqtt_client.loop();
+  ArduinoOTA.handle();
 }
 //<---------------------------------------------------------------------------------------------------------------------------->
 void connectToMQTT() {
@@ -210,6 +220,7 @@ void mqttCallback(char *topic, byte *payload, unsigned int length) {
     }else{
           String statusReceivedPayload = "{\"reqId\": \"\",\"commandId\": \"" + commandId + "\",\"status\": \"failure\",\"ackdata\": \"\",\"ackdatatype\": \"\"}";
     mqtt_client.publish(statusTopic.c_str(), statusReceivedPayload.c_str());
+    anedya_submitLog("","unknown command!!");
     }
   } else if (String(Response["errCode"]) == "0") {
   } else  // block to debug errors
@@ -285,4 +296,57 @@ void beep(){
   digitalWrite(buzzerPin, HIGH);
   delay(200);
   digitalWrite(buzzerPin,LOW);
+}
+
+
+void anedya_submitLog(String reqID, String Log)
+{
+  boolean check = true;
+
+  String strSubmitTopic = "$anedya/device/" + String(deviceID) + "/logs/submitLogs/json";
+  const char *submitTopic = strSubmitTopic.c_str();
+  while (check)
+  {
+    if (mqtt_client.connected())
+    {
+
+      if (millis() - submitLogTimer >= 2000)
+      {
+
+        submitLogTimer = millis();
+        // Get current time and convert it to milliseconds
+        long long current_time = now();                     // Get the current time
+        long long current_time_milli = current_time * 1000; // Convert current time to milliseconds
+
+        // Construct the JSON payload with sensor data and timestamp
+
+        String strLog = "{\"reqId\":\"" + reqID + "\",\"data\":[{\"timestamp\":" + String(current_time_milli) + ",\"log\":\"" + Log + "\"}]}";
+        const char *submitLogPayload = strLog.c_str();
+        mqtt_client.publish(submitTopic, submitLogPayload);
+      }
+      mqtt_client.loop();
+      if (submitRes != "")
+      {
+        // Parse the JSON response
+        DynamicJsonDocument jsonResponse(100);    // Declare a JSON document with a capacity of 200 bytes
+        deserializeJson(jsonResponse, submitRes); // Deserialize the JSON response from the server into the JSON document
+        int errorCode = jsonResponse["errCode"];  // Get the server receive time from the JSON document
+        if (errorCode == 0)
+        {
+          Serial.println("Log pushed to Anedya!!");
+        }
+        else
+        {
+          Serial.println("Failed to push!");
+          Serial.println(submitRes);
+        }
+        check = false;
+        submitLogTimer=5000;
+      }
+    }
+    else
+    {
+      connectToMQTT();
+    } // mqtt connect check end
+  }
 }
